@@ -11,6 +11,11 @@
         .error {
             border: solid red;
         }
+
+        .rowcolor {
+            background: blue;
+            ;
+        }
     </style>
 </head>
 
@@ -52,6 +57,8 @@
 
                     </tbody>
                 </table>
+                <h1>Total</h1>
+                <h1></h1>
             </div>
         </div>
     </div>
@@ -60,31 +67,38 @@
         $(document).ready(function () {
 
             $("#btnSaveTransaction").click(function () {
-                
-
                 $('#numAmount').removeClass('error');
-
                 var amount = $('#numAmount').val();
-                if (amount == "" || "0") {
+                if (amount == "" || amount == "0") {
                     $('#numAmount').addClass('error');
-                   
-                    }
+                    return false;
+                }
                 var type = $('#slType option:selected').val();
-               
+
                 var html = `<tr>
                     <td>${amount}</td> 
                     <td>${type}</td>
-                    <td><input type="button" value="Remove" class="btn btn-danger btn-sm"></td>
+                    <td><input type="button" value="Remove" class="btn btn-danger btn-sm btnRemove"></td>
                     </tr>`;
-           
+
                 $('#tblTransactionList').find("tbody").append(html);
-                
-
-                $('#numAmount').val('').focus();
+                $('#numAmount').val('10').focus();
                 $('#slType').val("Credit");
-                
 
+
+                $('#tblTransactionList').find('tbody tr').each(function () {
+                    var amount = $(this).find('td:eq(0)').html();
+                })
             });
+
+            $('#tblTransactionList').on("click", ".btnRemove", function () {
+                $(this).parent().closest('tr').remove();
+            })
+            $('#tblTransactionList').on("click", "tr", function () {
+                $('#tblTransactionList').find('tr').removeClass('rowcolor');
+                $(this).addClass("rowcolor");
+            })
+
 
         })
     </script>
